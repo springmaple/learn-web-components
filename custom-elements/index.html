@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div is="quote-text">This is first quote!</div>
+<div is="quote-text">This is second quote!</div>
+<div>This is not quoted</div>
+<red-text>This is red text</red-text>
+<script>
+    class QuoteText extends HTMLDivElement {
+        constructor() {
+            super()
+            this.setAttribute('style', 'background-color:#FEFABE;padding:20px;margin:10px;border-left:5px solid #FEDD58')
+        }
+    }
+
+    // Custom element name must be hyphened
+
+    // Customized built-in elements
+    window.customElements.define('quote-text', QuoteText, { extends: 'div' })
+
+    class RedText extends HTMLElement {
+        constructor() {
+            super()
+            this.setAttribute('style', 'color:red;display:inline-block;')
+        }
+    }
+
+    // Autonomous custom elements
+    window.customElements.define('red-text', RedText)
+</script>
+
+</body>
+</html>
