@@ -1,0 +1,46 @@
+<html lang="en">
+<head><title>Web Components - template and slots</title></head>
+<body>
+<red-button>
+    <p slot="slotted-text">Red Button</p>
+</red-button>
+
+<p id="p-red">
+    <span slot="slotted-text">Red Button</span>
+</p>
+
+<template id="red-button">
+    <button>
+        <slot name="slotted-text">Default text</slot>
+    </button>
+    <style>
+        button {
+            background-color: red;
+        }
+    </style>
+</template>
+
+<script>
+
+    // <slot> only works on shadow DOM
+
+    // This is example with custom element.
+    class RedButton extends HTMLElement {
+        constructor() {
+            super();
+            const redButton = document.getElementById("red-button");
+            const shadowRoot = this.attachShadow({ mode: 'closed' });
+            shadowRoot.appendChild(redButton.content.cloneNode(true));
+        }
+    }
+
+    customElements.define('red-button', RedButton)
+
+    // <slot> works without custom element.
+    const template = document.getElementById("red-button").content;
+    const pRedShadow = document.getElementById("p-red").attachShadow({ mode: 'open' })
+    pRedShadow.appendChild(template.cloneNode(true));
+
+</script>
+</body>
+</html>
