@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Components - Shadow DOM</title>
+    <style>
+        .red-text {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="red-text">red-text class outside shadow DOM</div>
+<div id="shadow-root"></div>
+<script>
+    const divShadowHost = document.getElementById("shadow-root");
+    console.log("`shadowRoot` before `attachShadow`", divShadowHost.shadowRoot);
+    const divShadowRoot = divShadowHost.attachShadow({ mode: "open" });  // only one shadow can be created per element
+    console.log("`shadowRoot` after `attachShadow`", divShadowHost.shadowRoot);
+    console.log("Is return value of `attachShadow` same to `.shadowRoot`?", divShadowRoot === divShadowHost.shadowRoot);
+
+    // Attach element to `shadowRoot`
+    const divTest = document.createElement('div');
+    divTest.setAttribute('id', 'div-test');
+    divTest.setAttribute('class', 'red-text')  // to prove that global style doesn't affect shadow DOM
+    divTest.appendChild(document.createTextNode('red-text class inside shadow DOM'))
+    divShadowRoot.appendChild(divTest);
+
+    // Test can get element `div-test` when shadow mode is "open" - Answer is cannot.
+    console.log("Is id `div-test` available in shadow mode 'open'?", document.getElementById('div-test')); // null
+
+    // Then what is the difference between mode 'open' and 'closed'?
+    // So the difference is actually, on "closed" mode `.shadowRoot` always returns null result.
+
+    // But what can we do with the `.shadowRoot`?
+    console.log('What can we do with `.shadowRoot`?', divShadowRoot.getElementById('div-test'))  // we can get the internal elements
+</script>
+
+</body>
+</html>
